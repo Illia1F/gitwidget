@@ -1,0 +1,14 @@
+.next
+out
+build
+node_modules
+package-lock.json
+pnpm-lock.yaml
+yarn.lock
+.vercel
+coverage
+*.tsbuildinfo
+public
+*.min.css
+*.min.js
+
