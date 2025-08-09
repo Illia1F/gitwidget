@@ -1,17 +1,9 @@
 import type { Metadata } from 'next';
 import { ThemeProvider } from '@/components/theme-provider';
-import { Geist, Geist_Mono } from 'next/font/google';
+import { BuilderProvider } from '@/contexts/builder-context';
+import { SiteHeader } from '@/components/layouts/site-header';
+
 import './globals.css';
-
-const geistSans = Geist({
-  variable: '--font-geist-sans',
-  subsets: ['latin'],
-});
-
-const geistMono = Geist_Mono({
-  variable: '--font-geist-mono',
-  subsets: ['latin'],
-});
 
 export const metadata: Metadata = {
   title: 'GitWidget',
@@ -26,10 +18,18 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
-        <ThemeProvider attribute="class" defaultTheme="dark" enableSystem disableTransitionOnChange>
-          {children}
-        </ThemeProvider>
+      <body className="min-h-screen antialiased">
+        <BuilderProvider>
+          <ThemeProvider
+            attribute="class"
+            defaultTheme="system"
+            enableSystem
+            disableTransitionOnChange
+          >
+            <SiteHeader />
+            <main className="min-h-[calc(100vh-4rem)] w-full">{children}</main>
+          </ThemeProvider>
+        </BuilderProvider>
       </body>
     </html>
   );

@@ -52,11 +52,7 @@ export const SVGEmbed = React.forwardRef<HTMLObjectElement, SVGEmbedProps>(
           ref={ref}
           data={src}
           type="image/svg+xml"
-          className={cn(
-            'bg-background block h-auto w-full rounded-lg border',
-            isLoading && 'opacity-0',
-            className,
-          )}
+          className={cn('bg-background block h-auto w-full', isLoading && 'opacity-0', className)}
           style={style}
           onLoad={handleLoad}
           onError={handleError}
