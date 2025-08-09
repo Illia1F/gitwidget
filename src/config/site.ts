@@ -9,6 +9,8 @@ export type SiteConfig = {
   tagline: string;
   version: string;
   userAgent: string;
+  url: string;
+  keywords: string[];
   github: {
     owner: string;
     repo: string;
@@ -18,8 +20,9 @@ export type SiteConfig = {
   };
 };
 
-const githubOwner = 'Illia1F' as const;
-const githubRepo = 'gitwidget' as const;
+const githubOwner = (process.env.NEXT_PUBLIC_GITHUB_OWNER ?? 'Illia1F') as string;
+const githubRepo = (process.env.NEXT_PUBLIC_GITHUB_REPO ?? 'gitwidget') as string;
+const siteUrl = (process.env.NEXT_PUBLIC_SITE_URL ?? 'https://gitwidget.vercel.app') as string;
 
 /**
  * Site configuration object
@@ -31,6 +34,17 @@ export const siteConfig: SiteConfig = {
   tagline: 'GitHub Stats Generator',
   version: '0.1.0',
   userAgent: 'GitWidget/0.1.0',
+  url: siteUrl,
+  keywords: [
+    'GitWidget',
+    'GitHub',
+    'GitHub stats',
+    'GitHub contributions',
+    'SVG',
+    'SVG generator',
+    'profile widgets',
+    'open source',
+  ],
   github: {
     owner: githubOwner,
     repo: githubRepo,
