@@ -2,6 +2,7 @@ import Link from 'next/link';
 import { GitHubStarButton } from '@/components/github-star-button';
 import { ThemeToggle } from '@/components/theme-toggle';
 import { GitHubIcon } from '@/components/icons/github-icon';
+import siteConfig from '@/config/site';
 
 export function SiteHeader() {
   return (
@@ -19,16 +20,14 @@ export function SiteHeader() {
             <GitHubIcon className="text-white" />
           </div>
           <div className="flex flex-col">
-            <span className="text-lg leading-none font-semibold">GitWidget</span>
-            <span className="text-muted-foreground text-xs leading-none">
-              GitHub Stats Generator
-            </span>
+            <span className="text-lg leading-none font-semibold">{siteConfig.name}</span>
+            <span className="text-muted-foreground text-xs leading-none">{siteConfig.tagline}</span>
           </div>
         </Link>
 
         <div className="flex items-center gap-3">
           <ThemeToggle />
-          <GitHubStarButton repo="Illia1F/gitwidget" />
+          <GitHubStarButton repo={siteConfig.github.repoFullName} />
         </div>
       </div>
     </header>

@@ -7,6 +7,7 @@ import 'server-only';
  */
 
 import { GitHubAPIConfig, GraphQLResponse } from './types';
+import siteConfig from '@/config/site';
 
 class GitHubGraphQLError extends Error {
   public readonly errors: Array<{ message: string; type?: string; path?: (string | number)[] }>;
@@ -46,7 +47,7 @@ export class GitHubGraphQLClient {
         headers: {
           Authorization: `Bearer ${this.token}`,
           'Content-Type': 'application/json',
-          'User-Agent': 'GitWidget/1.0',
+          'User-Agent': siteConfig.userAgent,
         },
         body: JSON.stringify({
           query,

@@ -9,7 +9,6 @@ export * from './svg-utils';
 
 // Export generators
 export { generateContributionsGridSVG } from './contributions';
-export { generateStatsCard } from './stats';
 
 // Re-export commonly used types
 export type {

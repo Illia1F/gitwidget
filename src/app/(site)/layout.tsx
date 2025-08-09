@@ -2,13 +2,13 @@ import type { Metadata } from 'next';
 import { ThemeProvider } from '@/components/theme-provider';
 import { BuilderProvider } from '@/contexts/builder-context';
 import { SiteHeader } from '@/components/layouts/site-header';
+import siteConfig from '@/config/site';
 
 import '../globals.css';
 
 export const metadata: Metadata = {
-  title: 'GitWidget',
-  description:
-    'GitWidget lets you generate and download beautiful SVGs of your GitHub stats, contributions, and more. Customize themes, labels, borders, and more.',
+  title: siteConfig.name,
+  description: siteConfig.description,
 };
 
 export default function RootLayout({ children }: Readonly<React.PropsWithChildren>) {
