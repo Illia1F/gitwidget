@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getLast12MonthsContributions, getYearContributions } from '@/github';
-import { generateContributionsGridSVG } from '@/generators/contributions';
+import { generateContributionsGridSVG } from '@/lib/generators/contributions';
 import { isValidGitHubUsername } from '@/github/utils';
 
 const CACHE_SECONDS = 60 * 60; // 1 hour

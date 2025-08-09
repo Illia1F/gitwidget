@@ -1,3 +1,5 @@
+import 'server-only';
+
 /**
  * GitHub User Statistics API
  *

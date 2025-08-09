@@ -8,16 +8,12 @@ interface RootProps extends PropsWithChildren {
 }
 
 const Root = ({ className, children }: RootProps) => {
-  return (
-    <div className={cn('bg-background flex min-h-screen flex-col lg:flex-row', className)}>
-      {children}
-    </div>
-  );
+  return <div className={cn('flex flex-col lg:flex-row', className)}>{children}</div>;
 };
 
 const Sidebar = () => {
   return (
-    <div className="border-border bg-card w-full border-r p-6 lg:max-h-screen lg:w-80 lg:min-w-80 lg:overflow-y-auto">
+    <div className="border-border bg-card w-full border-r p-6 lg:max-h-[calc(100vh-4rem-1px)] lg:w-96 lg:min-w-96 lg:overflow-y-auto">
       <BuilderSidebar />
     </div>
   );
@@ -25,7 +21,7 @@ const Sidebar = () => {
 
 const Preview = () => {
   return (
-    <div className="bg-background flex-1 p-6 lg:p-8">
+    <div className="flex-1 p-6 lg:p-8">
       <div className="mb-6">
         <h2 className="text-foreground text-xl font-semibold">Preview</h2>
         <p className="text-muted-foreground mt-2 text-sm">

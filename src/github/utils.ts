@@ -7,21 +7,6 @@
 import { ContributionDay, ContributionLevel } from './types';
 
 /**
- * Get contribution level color mapping
- */
-export const getContributionLevelColor = (level: ContributionLevel): string => {
-  const colorMap: Record<ContributionLevel, string> = {
-    NONE: '#ebedf0',
-    FIRST_QUARTILE: '#c6e48b',
-    SECOND_QUARTILE: '#7bc96f',
-    THIRD_QUARTILE: '#239a3b',
-    FOURTH_QUARTILE: '#196127',
-  };
-
-  return colorMap[level];
-};
-
-/**
  * Get contribution level intensity (0-4)
  */
 export const getContributionLevelIntensity = (level: ContributionLevel): number => {
