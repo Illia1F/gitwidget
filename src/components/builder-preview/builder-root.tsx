@@ -1,6 +1,7 @@
 'use client';
 
-import { createContext, useContext, useState, useCallback, type ReactNode } from 'react';
+import { cn } from '@/lib/utils';
+import { createContext, PropsWithChildren, useCallback, useContext, useState } from 'react';
 
 export interface BuilderConfig {
   username: string;
@@ -39,11 +40,11 @@ const defaultConfig: BuilderConfig = {
 
 const BuilderContext = createContext<BuilderContextType | undefined>(undefined);
 
-interface BuilderProviderProps {
-  children: ReactNode;
+interface RootProps extends PropsWithChildren {
+  className?: string;
 }
 
-export const BuilderProvider = ({ children }: BuilderProviderProps) => {
+export const Root = ({ className, children }: RootProps) => {
   const [config, setConfig] = useState<BuilderConfig>(defaultConfig);
 
   const updateConfig = useCallback((updates: Partial<BuilderConfig>) => {
@@ -71,6 +72,11 @@ export const BuilderProvider = ({ children }: BuilderProviderProps) => {
     if (config.borderWidth) params.set('border_width', config.borderWidth.toString());
     if (config.borderRadius) params.set('border_radius', config.borderRadius.toString());
 
+    // Add cache busting parameter based on animation state to force refresh
+    // This ensures the browser fetches fresh SVG content when animation settings toggle
+    const animationCacheKey = config.enableAnimations ? 'anim' : 'static';
+    params.set('_refresh', animationCacheKey);
+
     return `${window.location.origin}/api/contributions?${params.toString()}`;
   }, [config]);
 
@@ -96,7 +102,11 @@ export const BuilderProvider = ({ children }: BuilderProviderProps) => {
     generateHTML,
   };
 
-  return <BuilderContext.Provider value={value}>{children}</BuilderContext.Provider>;
+  return (
+    <BuilderContext.Provider value={value}>
+      <div className={cn('flex flex-col lg:flex-row', className)}>{children}</div>
+    </BuilderContext.Provider>
+  );
 };
 
 export const useBuilderContext = () => {

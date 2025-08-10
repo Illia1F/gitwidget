@@ -20,7 +20,12 @@ export function SiteHeader() {
             <GitHubIcon className="text-white" />
           </div>
           <div className="flex flex-col">
-            <span className="text-lg leading-none font-semibold">{siteConfig.name}</span>
+            <div className="flex items-center gap-2">
+              <span className="text-lg leading-none font-semibold">{siteConfig.name}</span>
+              <span className="from-primary to-primary/80 text-primary-foreground inline-flex animate-pulse items-center rounded-full bg-gradient-to-r px-2 py-0.5 text-xs font-medium shadow-sm">
+                BETA
+              </span>
+            </div>
             <span className="text-muted-foreground text-xs leading-none">{siteConfig.tagline}</span>
           </div>
         </Link>

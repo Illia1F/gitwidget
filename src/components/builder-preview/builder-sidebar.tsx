@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { Copy, ExternalLink, Download } from 'lucide-react';
+
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Switch } from '@/components/ui/switch';
@@ -13,9 +13,8 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { Slider } from '@/components/ui/slider';
-import { Button } from '@/components/ui/button';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { useBuilderContext } from '@/contexts/builder-context';
+
+import { useBuilderContext } from './builder-root';
 import { cn } from '@/lib/utils';
 import { useDebouncedValue } from '@/hooks/use-debounced-value';
 
@@ -24,16 +23,9 @@ interface BuilderSidebarProps {
 }
 
 export const BuilderSidebar = ({ className }: BuilderSidebarProps) => {
-  const { config, updateConfig, generateURL, generateMarkdown, generateHTML } = useBuilderContext();
-  const [copyStatus, setCopyStatus] = useState<'idle' | 'copied'>('idle');
+  const { config, updateConfig } = useBuilderContext();
   const [usernameInput, setUsernameInput] = useState<string>(config.username);
   const debouncedUsername = useDebouncedValue(usernameInput, 500);
-
-  const handleCopy = async (text: string) => {
-    await navigator.clipboard.writeText(text);
-    setCopyStatus('copied');
-    setTimeout(() => setCopyStatus('idle'), 2000);
-  };
 
   const currentYear = new Date().getFullYear();
   const years = Array.from({ length: 10 }, (_, i) => currentYear - i);
@@ -46,7 +38,12 @@ export const BuilderSidebar = ({ className }: BuilderSidebarProps) => {
   }, [debouncedUsername]);
 
   return (
-    <div className={cn('space-y-8', className)}>
+    <div
+      className={cn(
+        'border-border bg-card w-full space-y-8 border-r p-6 lg:max-h-[calc(100vh-4rem-1px)] lg:w-96 lg:min-w-96 lg:overflow-y-auto',
+        className,
+      )}
+    >
       {/* Header */}
       <div className="space-y-2">
         <h2 className="text-foreground text-xl font-semibold">Contributions Builder</h2>
@@ -68,22 +65,6 @@ export const BuilderSidebar = ({ className }: BuilderSidebarProps) => {
               onChange={(e) => setUsernameInput(e.target.value)}
               className="btn-transition border-border bg-input text-foreground placeholder:text-muted-foreground focus:border-primary focus:ring-primary/20 focus:ring-2"
             />
-          </div>
-
-          <div className="space-y-2">
-            <Label className="text-foreground text-sm font-medium">Theme</Label>
-            <Select
-              value={config.theme}
-              onValueChange={(value: 'light' | 'dark') => updateConfig({ theme: value })}
-            >
-              <SelectTrigger className="btn-transition border-border bg-input text-foreground focus:border-primary focus:ring-primary/20 focus:ring-2">
-                <SelectValue />
-              </SelectTrigger>
-              <SelectContent className="border-border bg-card">
-                <SelectItem value="light">Light</SelectItem>
-                <SelectItem value="dark">Dark</SelectItem>
-              </SelectContent>
-            </Select>
           </div>
 
           <div className="space-y-2">
@@ -264,132 +245,6 @@ export const BuilderSidebar = ({ className }: BuilderSidebarProps) => {
               </div>
             </>
           )}
-        </div>
-      </div>
-
-      {/* Export */}
-      <div className="space-y-6">
-        <h3 className="text-foreground text-lg font-medium">Export</h3>
-
-        <Tabs defaultValue="url" className="w-full">
-          <TabsList className="bg-muted grid w-full grid-cols-3">
-            <TabsTrigger
-              value="url"
-              className="data-[state=active]:bg-background data-[state=active]:text-foreground"
-            >
-              URL
-            </TabsTrigger>
-            <TabsTrigger
-              value="markdown"
-              className="data-[state=active]:bg-background data-[state=active]:text-foreground"
-            >
-              Markdown
-            </TabsTrigger>
-            <TabsTrigger
-              value="html"
-              className="data-[state=active]:bg-background data-[state=active]:text-foreground"
-            >
-              HTML
-            </TabsTrigger>
-          </TabsList>
-
-          <TabsContent value="url" className="mt-4 space-y-3">
-            <div className="space-y-2">
-              <Label className="text-foreground text-sm font-medium">Direct URL</Label>
-              <div className="flex gap-2">
-                <Input
-                  readOnly
-                  value={generateURL()}
-                  className="border-border bg-input text-foreground font-mono text-xs"
-                />
-                <Button
-                  size="sm"
-                  variant="outline"
-                  onClick={() => handleCopy(generateURL())}
-                  className="btn-transition border-border hover:bg-muted"
-                >
-                  <Copy className="h-4 w-4" />
-                </Button>
-              </div>
-            </div>
-          </TabsContent>
-
-          <TabsContent value="markdown" className="mt-4 space-y-3">
-            <div className="space-y-2">
-              <Label className="text-foreground text-sm font-medium">Markdown Code</Label>
-              <div className="flex gap-2">
-                <Input
-                  readOnly
-                  value={generateMarkdown()}
-                  className="border-border bg-input text-foreground font-mono text-xs"
-                />
-                <Button
-                  size="sm"
-                  variant="outline"
-                  onClick={() => handleCopy(generateMarkdown())}
-                  className="btn-transition border-border hover:bg-muted"
-                >
-                  <Copy className="h-4 w-4" />
-                </Button>
-              </div>
-            </div>
-          </TabsContent>
-
-          <TabsContent value="html" className="mt-4 space-y-3">
-            <div className="space-y-2">
-              <Label className="text-foreground text-sm font-medium">HTML Code</Label>
-              <div className="flex gap-2">
-                <Input
-                  readOnly
-                  value={generateHTML()}
-                  className="border-border bg-input text-foreground font-mono text-xs"
-                />
-                <Button
-                  size="sm"
-                  variant="outline"
-                  onClick={() => handleCopy(generateHTML())}
-                  className="btn-transition border-border hover:bg-muted"
-                >
-                  <Copy className="h-4 w-4" />
-                </Button>
-              </div>
-            </div>
-          </TabsContent>
-        </Tabs>
-
-        {copyStatus === 'copied' && (
-          <div className="rounded-md border border-green-200 bg-green-50 p-3 dark:border-green-800 dark:bg-green-900/20">
-            <p className="text-sm font-medium text-green-800 dark:text-green-200">
-              ✓ Copied to clipboard!
-            </p>
-          </div>
-        )}
-
-        <div className="flex gap-3">
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={() => window.open(generateURL(), '_blank')}
-            disabled={!config.username}
-            className="btn-transition border-border hover:bg-muted flex-1"
-          >
-            <ExternalLink className="mr-2 h-4 w-4" />
-            Preview
-          </Button>
-          <Button
-            size="sm"
-            onClick={() => {
-              const link = document.createElement('a');
-              link.href = generateURL();
-              link.download = `${config.username}-contributions.svg`;
-              link.click();
-            }}
-            disabled={!config.username}
-            className="btn-transition bg-primary text-primary-foreground hover:bg-primary/90 flex-1"
-          >
-            <Download className="mr-2 h-4 w-4" />
-            Download
-          </Button>
         </div>
       </div>
     </div>

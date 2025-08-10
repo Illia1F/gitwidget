@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import { AlertCircle } from 'lucide-react';
 import { cn } from '@/lib/utils';
-import { useBuilderContext } from '@/contexts/builder-context';
+import { useBuilderContext } from './builder-root';
 import { SVGEmbed } from '@/components/svg-embed';
 
 interface BuilderPreviewContentProps {

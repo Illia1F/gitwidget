@@ -1,6 +1,5 @@
 import type { Metadata, Viewport } from 'next';
 import { ThemeProvider } from '@/components/theme-provider';
-import { BuilderProvider } from '@/contexts/builder-context';
 import { SiteHeader } from '@/components/layouts/site-header';
 import siteConfig from '@/config/site';
 
@@ -67,10 +66,8 @@ export default function RootLayout({ children }: Readonly<React.PropsWithChildre
           enableSystem
           disableTransitionOnChange
         >
-          <BuilderProvider>
-            <SiteHeader />
-            <main className="flex w-full">{children}</main>
-          </BuilderProvider>
+          <SiteHeader />
+          <main className="flex w-full">{children}</main>
         </ThemeProvider>
       </body>
     </html>

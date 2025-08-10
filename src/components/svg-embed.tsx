@@ -16,10 +16,13 @@ export const SVGEmbed = React.forwardRef<HTMLObjectElement, SVGEmbedProps>(
   ({ src, className, style, fallback, onLoad, onError, ...props }, ref) => {
     const [isLoading, setIsLoading] = useState(true);
     const [hasError, setHasError] = useState(false);
+    const [objectKey, setObjectKey] = useState(0);
 
     useEffect(() => {
       setIsLoading(true);
       setHasError(false);
+      // Force object recreation when src changes to bypass caching
+      setObjectKey((prev) => prev + 1);
     }, [src]);
 
     const handleLoad = () => {
@@ -49,6 +52,7 @@ export const SVGEmbed = React.forwardRef<HTMLObjectElement, SVGEmbedProps>(
           </div>
         )}
         <object
+          key={objectKey}
           ref={ref}
           data={src}
           type="image/svg+xml"

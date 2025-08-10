@@ -47,15 +47,6 @@ export const generateCellAnimations = (enableAnimations: boolean): string => {
                 opacity: 1;
                 transform: translateY(0) scale(1);
             }
-        }
-
-        /* Respect reduced motion preferences */
-        @media (prefers-reduced-motion: reduce) {
-            .contribution-cell {
-                animation: none !important;
-                transform: none !important;
-                opacity: 1 !important;
-            }
         }`;
 
   return `
@@ -65,12 +56,12 @@ export const generateCellAnimations = (enableAnimations: boolean): string => {
               opacity: 1;
               transform-origin: center;
               animation: none;
-              transition: transform 180ms ease, filter 180ms ease, opacity 180ms ease;
+              transition: filter 180ms ease, opacity 180ms ease;
               cursor: pointer;
             }
             
             .contribution-cell:hover {
-              transform: translateY(-1px) scale(1.06);
+              transform: none;
               filter: brightness(1.15) drop-shadow(0 2px 8px rgba(0,0,0,0.25));
               opacity: 1 !important;
               z-index: 10;
@@ -78,11 +69,20 @@ export const generateCellAnimations = (enableAnimations: boolean): string => {
             
             /* Slightly more noticeable for high contribution cells */
             .contribution-cell.high-contribution:hover {
-              transform: translateY(-1px) scale(1.08);
+              transform: none;
               filter: brightness(1.2) drop-shadow(0 0 3px currentColor);
             }
 
             ${animationCSS}
+
+            /* Respect reduced motion preferences */
+            @media (prefers-reduced-motion: reduce) {
+                .contribution-cell {
+                    animation: none !important;
+                    transform: none !important;
+                    opacity: 1 !important;
+                }
+            }
           ]]>
         </style>
       `;
